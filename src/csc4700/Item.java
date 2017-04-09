@@ -14,7 +14,6 @@ public class Item {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Item item = (Item) o;
 
         return name.equals(item.name);
