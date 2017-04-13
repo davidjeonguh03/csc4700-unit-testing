@@ -2,6 +2,9 @@ import csc4700.CartItem;
 import csc4700.Item;
 import csc4700.exceptions.InvalidCountException;
 import org.junit.Test;
+import org.omg.CORBA.DynAnyPackage.Invalid;
+
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -19,19 +22,23 @@ public class CartItemTest {
 
     @Test
     public void testConstructor(){
+
         CartItem cartItem = new CartItem(new Item());
     }
     @Test
     public void testGetCount() {
         Item item1 = new Item();
-        item1.setName("foo");
         CartItem cartItem = new CartItem(item1);
-        cartItem.getCount();
+        Random rand = new Random();
+        int expected = rand.nextInt(5);
+        for(int i=0; i<expected; i++) {
+            cartItem.incrementCountByOne();
+        }
+        assertEquals(cartItem.getCount(), expected);
     }
     @Test
     public void testIncrementCountByOne(){
         Item item1 = new Item();
-        item1.setName("foo");
         CartItem cartItem = new CartItem(item1);
         int count1 = cartItem.getCount()+1;
         cartItem.incrementCountByOne();
@@ -41,7 +48,6 @@ public class CartItemTest {
     @Test
     public void testDecrementCountByOne(){
         Item item1 = new Item();
-        item1.setName("foo");
         CartItem cartItem = new CartItem(item1);
         cartItem.incrementCountByOne();
         cartItem.incrementCountByOne();
@@ -49,19 +55,20 @@ public class CartItemTest {
         cartItem.decrementCountByOne();
         int count2 = cartItem.getCount()+1;
         assertEquals(count1, count2);
+        try{
+            cartItem.decrementCountByOne();
+            assertTrue(false);
+        }
+        catch(InvalidCountException e){}
     }
     @Test
-    public void testEquals(){
+    public void testEquals() {
         Item item1 = new Item();
         item1.setName("foo");
         CartItem cartItem = new CartItem(item1);
         //test null
-        try {
-            cartItem.equals(null);
-        }
-        catch(NullPointerException e){
-            assertTrue(true);
-        }
+        CartItem cartItem2 = null;
+        cartItem.equals(cartItem2);
         //test self
         cartItem.equals(cartItem);
         //test same
@@ -72,10 +79,11 @@ public class CartItemTest {
     @Test
     public void testHashCode(){
         Item item1 = new Item();
-        item1.setName("foo");
+        String name = "foo";
+        item1.setName(name);
         CartItem cartItem = new CartItem(item1);
         cartItem.incrementCountByOne();
-        cartItem.hashCode();
+        assertEquals(name.hashCode(), cartItem.hashCode());
     }
     @Test
     public void testGetSetItem() {
@@ -94,9 +102,9 @@ public class CartItemTest {
         //neg set
         try {
             cartItem.setCount(-10);
+            assertTrue(false);
         }
         catch(InvalidCountException e){
-            assertTrue(true);
         }
     }
 }

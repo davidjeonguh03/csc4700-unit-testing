@@ -14,18 +14,21 @@ public class ShoppingCartTest {
     public void testJUnitIsConfiguredCorrectly() {
         assertTrue(true);
     }
-
+    @Test
+    public void testConstructor(){
+        ShoppingCart sc = new ShoppingCart();
+    }
     @Test
     public void testAdd(){
         ShoppingCart sc = new ShoppingCart();
         //adding null
         try {
             sc.addItem(null);
+            assertTrue(false);
         }
         catch(NullPointerException e){
-            assertTrue(true);
         }
-        //adding normal
+        //adding first
         Item item = new Item();
         sc.addItem(item);
         //add same
@@ -37,12 +40,13 @@ public class ShoppingCartTest {
         //del null
         try{
             sc.deleteItem(null);
+            assertTrue(false);
         }
         catch(NullPointerException e){
-            assertTrue(true);
         }
         //del nonexistent
         sc.deleteItem(new Item());
+
         //setup tests
         Item item = new Item();
         sc.addItem(item);

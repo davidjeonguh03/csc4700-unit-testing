@@ -1,6 +1,8 @@
 import csc4700.Item;
 import org.junit.Test;
 
+import java.util.Random;
+
 import static org.junit.Assert.*;
 
 
@@ -41,7 +43,8 @@ public class ItemTest {
         item.setName(expectedName);
         assertEquals(expectedName, item.getName());
         //cost
-        int expectedCost = 153;
+        Random rand = new Random();
+        int expectedCost = rand.nextInt(1024);
         item.setCost(expectedCost);
         assertEquals(expectedCost, item.getCost());
         //description
@@ -52,8 +55,8 @@ public class ItemTest {
     @Test
     public void testHashCode(){
         Item item = new Item();
-        item.setName("foo");
-        item.hashCode();
-        assertTrue(true);
+        String name = "foo";
+        item.setName(name);
+        assertEquals(name.hashCode(), item.hashCode());
     }
 }

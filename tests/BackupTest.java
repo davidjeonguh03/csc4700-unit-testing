@@ -5,6 +5,7 @@ import csc4700.exceptions.SerializedFormatException;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
@@ -18,6 +19,10 @@ public class BackupTest {
     @Test
     public void testJUnitIsConfiguredCorrectly() {
         assertTrue(true);
+    }
+    @Test
+    public void testConstructor(){
+        Backup bu = new Backup();
     }
     @Test
     public void testSerializeShoppingCart(){
@@ -34,9 +39,9 @@ public class BackupTest {
         //serial null
         try {
             bu.serializeShoppingCart(null);
+            assertTrue(false);
         }
         catch(NullPointerException e){
-            assertTrue(true);
         }
         //serial norm
         bu.serializeShoppingCart(sc);
@@ -54,20 +59,30 @@ public class BackupTest {
         sc.addItem(item2);
 
         //serial null
-        String s;
         try {
+            String s = null;
             bu.deserializeShoppingCart(s);
+            assertTrue(false);
         }
         catch(NullPointerException e){
-            assertTrue(true);
+        }
+        catch(SerializedFormatException e){}
+        //serial serialized format exception
+        try {
+            String s = "foobar";
+            bu.deserializeShoppingCart(s);
+            assertTrue(false);
+        }
+        catch(SerializedFormatException e){
         }
         //serial norm
+        String s = "foob";
         s = bu.serializeShoppingCart(sc);
         try {
             bu.deserializeShoppingCart(s);
         }
         catch(SerializedFormatException e){
-
+            assertTrue(false);
         }
     }
     @Test
@@ -81,25 +96,38 @@ public class BackupTest {
         item2.setName("bar");
         sc.addItem(item1);
         sc.addItem(item2);
+        //norm save
         try {
-            bu.saveShoppingCart(sc, new File(""));
-            bu.saveShoppingCart(sc, new File(""));
+            bu.saveShoppingCart(sc, new File("out/save.txt"));
         }
-        catch(IOException e){}
+        catch(IOException e){
+            assertTrue(false);
+        }
     }
     @Test
-    public void testloadShoppingCart(){
+    public void testLoadShoppingCart(){
+        Backup bu = new Backup();
+        //norm load
         try {
-            Backup bu = new Backup();
-            try {
-                File s = new File("");
-                bu.loadShoppingCart(s);
-                bu.loadShoppingCart(s);
-            }
-            catch(IOException e){}
-            catch(SerializedFormatException e){}
+            File s = new File("out/save.txt");
+            bu.loadShoppingCart(s);
+        }
+        catch(SerializedFormatException e){
+            assertTrue(false);
+        }
+        catch(IOException e){
+            assertTrue(false);
+        }
+        //nonexistent path load
+        try {
+            File s = new File("out/save2.txt");
+            bu.loadShoppingCart(s);
+            assertTrue(false);
         }
         catch(IOException e){}
+        catch(SerializedFormatException e){
+            assertTrue(false);
+        }
     }
 
 }
