@@ -3,10 +3,21 @@ package csc4700;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The ShoppingCart represents a list of CartItem.
+ *
+ * @author  David Jeong
+ */
+
 public class ShoppingCart {
 
     private List<CartItem> cartItems = new ArrayList<CartItem>();
-
+    /**
+     * Adds an Item.
+     *
+     * @param item An Item
+     * @throws NullPointerException if item equals null
+     */
     public void addItem(Item item) {
         if (item == null) {
             throw new NullPointerException();
@@ -25,7 +36,12 @@ public class ShoppingCart {
         // so simply increment the quantity.
         cartItem.incrementCountByOne();
     }
-
+    /**
+     * Deletes an Item.
+     *
+     * @param item An Item
+     * @throws NullPointerException if item equals null
+     */
     public void deleteItem(Item item) {
         if (item == null) {
             throw new NullPointerException();
@@ -52,7 +68,13 @@ public class ShoppingCart {
             cartItem.decrementCountByOne();
         }
     }
-
+    /**
+     * Finds an CartItem.
+     *
+     * @param item An Item
+     * @return a CartItem representing item
+     * @throws NullPointerException if item equals null
+     */
     public CartItem findCartItem(Item item) {
         for (CartItem i : cartItems) {
             if (i.getItem().equals(item)) {
@@ -61,7 +83,11 @@ public class ShoppingCart {
         }
         return null;
     }
-
+    /**
+     * Gets list of CartItem.
+     *
+     * @return a List of CartItem this ShoppingCart
+     */
     public List<CartItem> getCartItems() {
         return cartItems;
     }

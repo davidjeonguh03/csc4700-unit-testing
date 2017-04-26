@@ -3,13 +3,27 @@ package csc4700;
 import csc4700.exceptions.SerializedFormatException;
 
 import java.io.*;
-
+/**
+ * The BackUp class saves and loads ShoppingCarts.
+ *
+ * @author  David Jeong
+ * @see ShoppingCart
+ */
 public class Backup {
 
 
     public static final String FIELD_SEPARATOR = ",";
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
+    /**
+     * Serializes a ShoppingCart.
+     * The method is not recommended for use outside of
+     * the saveShoppingCart method.
+     *
+     * @param cart ShoppingCart to be serialized
+     * @return String of serialized ShoppingCart
+     * @throws NullPointerException if cart is null
+     */
     public String serializeShoppingCart(ShoppingCart cart) {
         if (cart == null) {
             throw new NullPointerException();
@@ -34,7 +48,17 @@ public class Backup {
         return allCartItems.toString();
     }
 
-
+    /**
+     * Deserializes a ShoppingCart.
+     * The method is not recommended for use outside of
+     * the loadShoppingCart method.
+     *
+     * @param s String of serialized ShoppingCart
+     * @return Deserialized ShoppingCart
+     * @throws NullPointerException if s is null
+     * @throws SerializedFormatException if s is not properly formatted
+     * @see SerializedFormatException
+     */
     public ShoppingCart deserializeShoppingCart(String s) throws SerializedFormatException {
         if (s == null) {
             throw new NullPointerException();
@@ -66,7 +90,13 @@ public class Backup {
         return cart;
     }
 
-
+    /**
+     * Saves a ShoppingCart at the desired File location.
+     * If the designated file already exists, it will be deleted.
+     * @param saveMe ShoppingCart to be serialized
+     * @param location File save location
+     * @throws IOException if location references a nonexistent file
+     */
     public void saveShoppingCart(ShoppingCart saveMe, File location) throws IOException {
 
         // If there is already a file at the given location, delete it before continuing.
@@ -81,7 +111,13 @@ public class Backup {
         bw.write(serialized);
         bw.close();
     }
-
+    /**
+     * Loads a ShoppingCart from the designated File location.
+     * @param location File load location
+     * @return Saved ShoppingCart at location
+     * @throws IOException if location references a nonexistent file
+     * @throws SerializedFormatException if saved string is not properly formatted
+     */
     public ShoppingCart loadShoppingCart(File location)
             throws IOException, SerializedFormatException {
 
